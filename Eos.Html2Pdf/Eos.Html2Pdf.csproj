@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5D5C7A66-0D63-43A8-BD31-AFF9092E146E}</ProjectGuid>
+    <ProjectGuid>{871C6E19-40C4-4EB5-A8FC-4F488A23EF3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Eos.Html2Pdf</RootNamespace>
@@ -38,99 +38,336 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Net.Http.Headers, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.0.2\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PuppeteerSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PuppeteerSharp.2.0.3\lib\netstandard2.0\PuppeteerSharp.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.4.4.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddTagOptions.cs" />
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="BoxModel.cs" />
+    <Compile Include="BoxModelPoint.cs" />
+    <Compile Include="Browser.cs" />
+    <Compile Include="BrowserContext.cs" />
+    <Compile Include="BufferException.cs" />
+    <Compile Include="CDPSession.cs" />
+    <Compile Include="ChromiumLauncher.cs" />
+    <Compile Include="ChromiumProcessException.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="ConnectOptions.cs" />
+    <Compile Include="ConsoleType.cs" />
+    <Compile Include="ContextPayload.cs" />
+    <Compile Include="ContextPayloadAuxData.cs" />
+    <Compile Include="Credentials.cs" />
+    <Compile Include="Dialog.cs" />
+    <Compile Include="DialogEventArgs.cs" />
+    <Compile Include="DialogType.cs" />
+    <Compile Include="DOMWorld.cs" />
+    <Compile Include="DOMWorldType.cs" />
+    <Compile Include="ElementHandle.cs" />
+    <Compile Include="EmulationManager.cs" />
+    <Compile Include="ErrorEventArgs.cs" />
+    <Compile Include="EvaluationFailedException.cs" />
+    <Compile Include="ExecutionContext.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Frame.cs" />
+    <Compile Include="FrameEventArgs.cs" />
+    <Compile Include="FrameManager.cs" />
+    <Compile Include="FramePayload.cs" />
+    <Compile Include="FrameTree.cs" />
+    <Compile Include="GeolocationOption.cs" />
+    <Compile Include="Helpers\AsyncDictionaryHelper.cs" />
+    <Compile Include="Helpers\AsyncFileHelper.cs" />
+    <Compile Include="Helpers\DictionaryExtensions.cs" />
+    <Compile Include="Helpers\Json\FlexibleStringEnumConverter.cs" />
+    <Compile Include="Helpers\Json\HttpMethodConverter.cs" />
+    <Compile Include="Helpers\Json\JSHandleMethodConverter.cs" />
+    <Compile Include="Helpers\Json\JsonHelper.cs" />
+    <Compile Include="Helpers\Json\JTokenExtensions.cs" />
+    <Compile Include="Helpers\MultiMap.cs" />
+    <Compile Include="Helpers\ProtocolStreamReader.cs" />
+    <Compile Include="Helpers\RemoteObjectHelper.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\TaskHelper.cs" />
+    <Compile Include="Helpers\TaskQueue.cs" />
+    <Compile Include="Helpers\TempDirectory.cs" />
     <Compile Include="Html2PdfHelper.cs" />
+    <Compile Include="IBrowserOptions.cs" />
+    <Compile Include="IConnectionOptions.cs" />
+    <Compile Include="Input\ClickOptions.cs" />
+    <Compile Include="Input\DownOptions.cs" />
+    <Compile Include="Input\Key.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\KeyDefinition.cs" />
+    <Compile Include="Input\KeyDefinitions.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\MouseButton.cs" />
+    <Compile Include="Input\MoveOptions.cs" />
+    <Compile Include="Input\PressOptions.cs" />
+    <Compile Include="Input\TouchPoint.cs" />
+    <Compile Include="Input\Touchscreen.cs" />
+    <Compile Include="Input\TypeOptions.cs" />
+    <Compile Include="InvalidPageBinding.cs" />
+    <Compile Include="InvalidTargetException.cs" />
+    <Compile Include="JSHandle.cs" />
+    <Compile Include="Launcher.cs" />
+    <Compile Include="LauncherBase.cs" />
+    <Compile Include="LaunchOptions.cs" />
+    <Compile Include="LifecycleWatcher.cs" />
+    <Compile Include="MediaFeature.cs" />
+    <Compile Include="MediaFeatureValue.cs" />
+    <Compile Include="Media\Clip.cs" />
+    <Compile Include="Media\MarginOptions.cs" />
+    <Compile Include="Media\MediaType.cs" />
+    <Compile Include="Media\PaperFormat.cs" />
+    <Compile Include="Media\ScreenOrientation.cs" />
+    <Compile Include="Media\ScreenOrientationType.cs" />
+    <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="MessageException.cs" />
+    <Compile Include="MessageTask.cs" />
+    <Compile Include="Messaging\AccessibilityGetFullAXTreeResponse.cs" />
+    <Compile Include="Messaging\BasicFrameResponse.cs" />
+    <Compile Include="Messaging\BindingCalledResponse.cs" />
+    <Compile Include="Messaging\BoxModelResponse.cs" />
+    <Compile Include="Messaging\BrowserGetVersionResponse.cs" />
+    <Compile Include="Messaging\BrowserGrantPermissionsRequest.cs" />
+    <Compile Include="Messaging\BrowserResetPermissionsRequest.cs" />
+    <Compile Include="Messaging\CertificateErrorResponse.cs" />
+    <Compile Include="Messaging\ConnectionError.cs" />
+    <Compile Include="Messaging\ConnectionRequest.cs" />
+    <Compile Include="Messaging\ConnectionResponse.cs" />
+    <Compile Include="Messaging\ConnectionResponseParams.cs" />
+    <Compile Include="Messaging\ContinueWithAuthRequest.cs" />
+    <Compile Include="Messaging\ContinueWithAuthRequestChallengeResponse.cs" />
+    <Compile Include="Messaging\CoverageResponseRange.cs" />
+    <Compile Include="Messaging\CreateBrowserContextResponse.cs" />
+    <Compile Include="Messaging\CssGetStyleSheetTextRequest.cs" />
+    <Compile Include="Messaging\CssGetStyleSheetTextResponse.cs" />
+    <Compile Include="Messaging\CSSStopRuleUsageTrackingResponse.cs" />
+    <Compile Include="Messaging\CSSStyleSheetAddedResponse.cs" />
+    <Compile Include="Messaging\DebuggerGetScriptSourceRequest.cs" />
+    <Compile Include="Messaging\DebuggerGetScriptSourceResponse.cs" />
+    <Compile Include="Messaging\DebuggerScriptParsedResponse.cs" />
+    <Compile Include="Messaging\DebuggerSetSkipAllPausesRequest.cs" />
+    <Compile Include="Messaging\DispatchKeyEventType.cs" />
+    <Compile Include="Messaging\DomDescribeNodeRequest.cs" />
+    <Compile Include="Messaging\DomDescribeNodeResponse.cs" />
+    <Compile Include="Messaging\DomGetBoxModelRequest.cs" />
+    <Compile Include="Messaging\DomGetContentQuadsRequest.cs" />
+    <Compile Include="Messaging\DomResolveNodeRequest.cs" />
+    <Compile Include="Messaging\DomResolveNodeResponse.cs" />
+    <Compile Include="Messaging\DomSetFileInputFilesRequest.cs" />
+    <Compile Include="Messaging\EmulateTimezoneRequest.cs" />
+    <Compile Include="Messaging\EmulationSetDefaultBackgroundColorOverrideColor.cs" />
+    <Compile Include="Messaging\EmulationSetDefaultBackgroundColorOverrideRequest.cs" />
+    <Compile Include="Messaging\EmulationSetDeviceMetricsOverrideRequest.cs" />
+    <Compile Include="Messaging\EmulationSetEmulatedMediaFeatureRequest.cs" />
+    <Compile Include="Messaging\EmulationSetEmulatedMediaTypeRequest.cs" />
+    <Compile Include="Messaging\EmulationSetScriptExecutionDisabledRequest.cs" />
+    <Compile Include="Messaging\EmulationSetTouchEmulationEnabledRequest.cs" />
+    <Compile Include="Messaging\EvaluateExceptionResponseDetails.cs" />
+    <Compile Include="Messaging\EvaluateExceptionResponseInfo.cs" />
+    <Compile Include="Messaging\EvaluateExceptionResponseStackTrace.cs" />
+    <Compile Include="Messaging\EvaluateHandleResponse.cs" />
+    <Compile Include="Messaging\EvaluationExceptionResponseCallFrame.cs" />
+    <Compile Include="Messaging\FetchAuthRequiredResponse.cs" />
+    <Compile Include="Messaging\FetchContinueRequestRequest.cs" />
+    <Compile Include="Messaging\FetchEnableRequest.cs" />
+    <Compile Include="Messaging\FetchFailRequest.cs" />
+    <Compile Include="Messaging\FetchFulfillRequest.cs" />
+    <Compile Include="Messaging\FetchRequestPausedResponse.cs" />
+    <Compile Include="Messaging\FileChooserAction.cs" />
+    <Compile Include="Messaging\GetBrowserContextsResponse.cs" />
+    <Compile Include="Messaging\GetContentQuadsResponse.cs" />
+    <Compile Include="Messaging\GetLayoutMetricsResponse.cs" />
+    <Compile Include="Messaging\Header.cs" />
+    <Compile Include="Messaging\InputDispatchKeyEventRequest.cs" />
+    <Compile Include="Messaging\InputDispatchMouseEventRequest.cs" />
+    <Compile Include="Messaging\InputDispatchTouchEventRequest.cs" />
+    <Compile Include="Messaging\InputInsertTextRequest.cs" />
+    <Compile Include="Messaging\IOCloseRequest.cs" />
+    <Compile Include="Messaging\IOReadRequest.cs" />
+    <Compile Include="Messaging\IOReadResponse.cs" />
+    <Compile Include="Messaging\LifecycleEventResponse.cs" />
+    <Compile Include="Messaging\LoadingFailedResponse.cs" />
+    <Compile Include="Messaging\LoadingFinishedResponse.cs" />
+    <Compile Include="Messaging\LogEntryAddedResponse.cs" />
+    <Compile Include="Messaging\MouseEventType.cs" />
+    <Compile Include="Messaging\NavigatedWithinDocumentResponse.cs" />
+    <Compile Include="Messaging\NetworkEmulateNetworkConditionsRequest.cs" />
+    <Compile Include="Messaging\NetworkGetCookiesRequest.cs" />
+    <Compile Include="Messaging\NetworkGetCookiesResponse.cs" />
+    <Compile Include="Messaging\NetworkGetResponseBodyRequest.cs" />
+    <Compile Include="Messaging\NetworkGetResponseBodyResponse.cs" />
+    <Compile Include="Messaging\NetworkSetCacheDisabledRequest.cs" />
+    <Compile Include="Messaging\NetworkSetCookiesRequest.cs" />
+    <Compile Include="Messaging\NetworkSetExtraHTTPHeadersRequest.cs" />
+    <Compile Include="Messaging\NetworkSetUserAgentOverrideRequest.cs" />
+    <Compile Include="Messaging\PageAddScriptToEvaluateOnNewDocumentRequest.cs" />
+    <Compile Include="Messaging\PageCaptureScreenshotRequest.cs" />
+    <Compile Include="Messaging\PageCaptureScreenshotResponse.cs" />
+    <Compile Include="Messaging\PageConsoleResponse.cs" />
+    <Compile Include="Messaging\PageCreateIsolatedWorldRequest.cs" />
+    <Compile Include="Messaging\PageFileChooserOpenedResponse.cs" />
+    <Compile Include="Messaging\PageFrameAttachedResponse.cs" />
+    <Compile Include="Messaging\PageFrameNavigatedResponse.cs" />
+    <Compile Include="Messaging\PageGetFrameTreeItem.cs" />
+    <Compile Include="Messaging\PageGetFrameTreeItemInfo.cs" />
+    <Compile Include="Messaging\PageGetFrameTreeResponse.cs" />
+    <Compile Include="Messaging\PageGetLayoutMetricsResponse.cs" />
+    <Compile Include="Messaging\PageGetNavigationHistoryResponse.cs" />
+    <Compile Include="Messaging\PageHandleFileChooserRequest.cs" />
+    <Compile Include="Messaging\PageHandleJavaScriptDialogRequest.cs" />
+    <Compile Include="Messaging\PageJavascriptDialogOpeningResponse.cs" />
+    <Compile Include="Messaging\PageNavigateRequest.cs" />
+    <Compile Include="Messaging\PageNavigateResponse.cs" />
+    <Compile Include="Messaging\PageNavigateToHistoryEntryRequest.cs" />
+    <Compile Include="Messaging\PagePrintToPDFRequest.cs" />
+    <Compile Include="Messaging\PagePrintToPDFResponse.cs" />
+    <Compile Include="Messaging\PageSetBypassCSPRequest.cs" />
+    <Compile Include="Messaging\PageSetInterceptFileChooserDialog.cs" />
+    <Compile Include="Messaging\PageSetLifecycleEventsEnabledRequest.cs" />
+    <Compile Include="Messaging\PerformanceGetMetricsResponse.cs" />
+    <Compile Include="Messaging\PerformanceMetricsResponse.cs" />
+    <Compile Include="Messaging\ProfilerStartPreciseCoverageRequest.cs" />
+    <Compile Include="Messaging\ProfilerTakePreciseCoverageResponse.cs" />
+    <Compile Include="Messaging\RemoteObject.cs" />
+    <Compile Include="Messaging\RemoteObjectSubtype.cs" />
+    <Compile Include="Messaging\RemoteObjectType.cs" />
+    <Compile Include="Messaging\RequestServedFromCacheResponse.cs" />
+    <Compile Include="Messaging\RequestWillBeSentPayload.cs" />
+    <Compile Include="Messaging\ResponsePayload.cs" />
+    <Compile Include="Messaging\ResponseReceivedResponse.cs" />
+    <Compile Include="Messaging\RuntimeAddBindingRequest.cs" />
+    <Compile Include="Messaging\RuntimeCallFunctionOnRequest.cs" />
+    <Compile Include="Messaging\RuntimeCallFunctionOnRequestArgument.cs" />
+    <Compile Include="Messaging\RuntimeCallFunctionOnResponse.cs" />
+    <Compile Include="Messaging\RuntimeEvaluateRequest.cs" />
+    <Compile Include="Messaging\RuntimeExceptionThrownResponse.cs" />
+    <Compile Include="Messaging\RuntimeExecutionContextCreatedResponse.cs" />
+    <Compile Include="Messaging\RuntimeExecutionContextDestroyedResponse.cs" />
+    <Compile Include="Messaging\RuntimeGetPropertiesRequest.cs" />
+    <Compile Include="Messaging\RuntimeGetPropertiesResponse.cs" />
+    <Compile Include="Messaging\RuntimeQueryObjectsRequest.cs" />
+    <Compile Include="Messaging\RuntimeQueryObjectsResponse.cs" />
+    <Compile Include="Messaging\RuntimeReleaseObjectRequest.cs" />
+    <Compile Include="Messaging\SecurityHandleCertificateErrorResponse.cs" />
+    <Compile Include="Messaging\SecuritySetIgnoreCertificateErrorsRequest.cs" />
+    <Compile Include="Messaging\SecuritySetOverrideCertificateErrorsRequest.cs" />
+    <Compile Include="Messaging\StackTrace.cs" />
+    <Compile Include="Messaging\TargetActivateTargetRequest.cs" />
+    <Compile Include="Messaging\TargetAttachedToTargetResponse.cs" />
+    <Compile Include="Messaging\TargetAttachToTargetRequest.cs" />
+    <Compile Include="Messaging\TargetAttachToTargetResponse.cs" />
+    <Compile Include="Messaging\TargetCloseTargetRequest.cs" />
+    <Compile Include="Messaging\TargetCreatedResponse.cs" />
+    <Compile Include="Messaging\TargetCreateTargetRequest.cs" />
+    <Compile Include="Messaging\TargetCreateTargetResponse.cs" />
+    <Compile Include="Messaging\TargetDestroyedResponse.cs" />
+    <Compile Include="Messaging\TargetDetachedFromTargetResponse.cs" />
+    <Compile Include="Messaging\TargetDetachFromTargetRequest.cs" />
+    <Compile Include="Messaging\TargetDisposeBrowserContextRequest.cs" />
+    <Compile Include="Messaging\TargetSendMessageToTargetRequest.cs" />
+    <Compile Include="Messaging\TargetSetAutoAttachRequest.cs" />
+    <Compile Include="Messaging\TargetSetDiscoverTargetsRequest.cs" />
+    <Compile Include="Messaging\TracingCompleteResponse.cs" />
+    <Compile Include="Messaging\TracingStartRequest.cs" />
+    <Compile Include="Messaging\WSEndpointResponse.cs" />
+    <Compile Include="Metric.cs" />
+    <Compile Include="MetricEventArgs.cs" />
+    <Compile Include="NavigationException.cs" />
+    <Compile Include="NavigationOptions.cs" />
+    <Compile Include="NetworkManager.cs" />
+    <Compile Include="OverridePermission.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="PageAccessibility\Accessibility.cs" />
+    <Compile Include="PageAccessibility\AccessibilitySnapshotOptions.cs" />
+    <Compile Include="PageAccessibility\AXNode.cs" />
+    <Compile Include="PageAccessibility\CheckedState.cs" />
+    <Compile Include="PageAccessibility\SerializedAXNode.cs" />
+    <Compile Include="PageCloseOptions.cs" />
+    <Compile Include="PageCoverage\Coverage.cs" />
+    <Compile Include="PageCoverage\CoverageEntry.cs" />
+    <Compile Include="PageCoverage\CoverageEntryPoint.cs" />
+    <Compile Include="PageCoverage\CoverageEntryRange.cs" />
+    <Compile Include="PageCoverage\CoverageStartOptions.cs" />
+    <Compile Include="PageCoverage\CSSCoverage.cs" />
+    <Compile Include="PageCoverage\JSCoverage.cs" />
+    <Compile Include="PageErrorEventArgs.cs" />
+    <Compile Include="Payload.cs" />
+    <Compile Include="PdfOptions.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="PopupEventArgs.cs" />
+    <Compile Include="ProcessException.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="Puppeteer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PuppeteerException.cs" />
+    <Compile Include="RemoteAddress.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="RequestAbortErrorCode.cs" />
+    <Compile Include="RequestEventArgs.cs" />
+    <Compile Include="ResourceType.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="ResponseCreatedEventArgs.cs" />
+    <Compile Include="ResponseData.cs" />
+    <Compile Include="RevisionInfo.cs" />
+    <Compile Include="SameSite.cs" />
+    <Compile Include="ScreenshotOptions.cs" />
+    <Compile Include="ScreenshotType.cs" />
+    <Compile Include="SecurityDetails.cs" />
+    <Compile Include="SelectorException.cs" />
+    <Compile Include="Target.cs" />
+    <Compile Include="TargetChangedArgs.cs" />
+    <Compile Include="TargetClosedException.cs" />
+    <Compile Include="TargetCrashedException.cs" />
+    <Compile Include="TargetInfo.cs" />
+    <Compile Include="TargetType.cs" />
+    <Compile Include="TimeoutSettings.cs" />
+    <Compile Include="Tracing.cs" />
+    <Compile Include="TracingOptions.cs" />
+    <Compile Include="Transport\IConnectionTransport.cs" />
+    <Compile Include="Transport\MessageReceivedEventArgs.cs" />
+    <Compile Include="Transport\TransportClosedEventArgs.cs" />
+    <Compile Include="Transport\TransportFactory.cs" />
+    <Compile Include="Transport\TransportTaskScheduler.cs" />
+    <Compile Include="Transport\WebSocketFactory.cs" />
+    <Compile Include="Transport\WebSocketTransport.cs" />
+    <Compile Include="ViewPortOptions.cs" />
+    <Compile Include="WaitForFileChooserOptions.cs" />
+    <Compile Include="WaitForFunctionOptions.cs" />
+    <Compile Include="WaitForFunctionPollingOption.cs" />
+    <Compile Include="WaitForOptions.cs" />
+    <Compile Include="WaitForSelectorOptions.cs" />
+    <Compile Include="WaitTask.cs" />
+    <Compile Include="WaitTaskTimeoutException.cs" />
+    <Compile Include="WaitUntilNavigation.cs" />
+    <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets" Condition="Exists('..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets'))" />
     <Error Condition="!Exists('..\packages\ILMerge.3.0.41\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.41\build\ILMerge.props'))" />
+    <Error Condition="!Exists('..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets'))" />
   </Target>
+  <Import Project="..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets" Condition="Exists('..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)ILMerge\Eos.Html2Pdf.dll $(SolutionDir)\Eos.Html2Pdf.ConsoleApp\libs\Eos.Html2Pdf.dll</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)ILMerge\Eos.Html2Pdf.dll $(SolutionDir)\Eos.Html2Pdf.ConsoleApp\libs\Eos.Html2Pdf.dll
+copy $(TargetDir)ILMerge\Eos.Html2Pdf.dll $(SolutionDir)\Eos.Html2Pdf.WebApplication\libs\Eos.Html2Pdf.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

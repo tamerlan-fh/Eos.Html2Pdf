@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Eos.Html2Pdf")]
+[assembly: AssemblyTitle("ClassLibrary1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Eos.Html2Pdf")]
+[assembly: AssemblyProduct("ClassLibrary1")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("5d5c7a66-0d63-43a8-bd31-aff9092e146e")]
+[assembly: Guid("871c6e19-40c4-4eb5-a8fc-4f488a23ef3f")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

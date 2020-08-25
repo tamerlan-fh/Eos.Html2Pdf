@@ -23,7 +23,7 @@ namespace Eos.Html2Pdf
         private static byte[] Convert(Task<byte[]> task)
         {
             if (!task.Wait(TimeSpan.FromSeconds(60)) || task.Exception != null)
-                throw new Exception($"В процессе конвертирования документа http в pdf произошла ошибка. {task.Exception.Message}", task.Exception);
+                throw new Exception($"В процессе конвертирования документа http в pdf произошла ошибка. {task.Exception?.Message}", task.Exception);
             return task.Result;
         }
 

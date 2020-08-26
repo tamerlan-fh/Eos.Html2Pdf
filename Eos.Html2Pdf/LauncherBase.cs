@@ -16,11 +16,6 @@ namespace PuppeteerSharp
     /// </summary>
     public class LauncherBase : IDisposable
     {
-        #region Static fields
-
-        private static int _processCount;
-
-        #endregion
 
         #region Instance fields
 

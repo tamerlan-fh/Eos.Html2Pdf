@@ -6,7 +6,6 @@ using PuppeteerSharp.Messaging;
 using PuppeteerSharp.PageAccessibility;
 using PuppeteerSharp.PageCoverage;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -36,15 +35,9 @@ namespace PuppeteerSharp
         private readonly TaskQueue _screenshotTaskQueue;
         private readonly EmulationManager _emulationManager;
         private readonly Dictionary<string, Delegate> _pageBindings;
-        //private readonly Dictionary<string, Worker> _workers;
-        private PageGetLayoutMetricsResponse _burstModeMetrics;
-        private bool _screenshotBurstModeOn;
-        private ScreenshotOptions _screenshotBurstModeOptions;
         private readonly TaskCompletionSource<bool> _closeCompletedTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         private TaskCompletionSource<bool> _sessionClosedTcs;
         private readonly TimeoutSettings _timeoutSettings;
-        private bool _fileChooserInterceptionIsDisabled;
-        //private ConcurrentDictionary<Guid, TaskCompletionSource<FileChooser>> _fileChooserInterceptors;
 
         private static readonly Dictionary<string, decimal> _unitToPixels = new Dictionary<string, decimal> {
             {"px", 1},
@@ -63,7 +56,6 @@ namespace PuppeteerSharp
             Keyboard = new Keyboard(client);
             Mouse = new Mouse(client, Keyboard);
             Touchscreen = new Touchscreen(client, Keyboard);
-            Tracing = new Tracing(client);
             Coverage = new Coverage(client);
 
             //_fileChooserInterceptors = new ConcurrentDictionary<Guid, TaskCompletionSource<FileChooser>>();
@@ -105,16 +97,6 @@ namespace PuppeteerSharp
         /// Raised when the page crashes
         /// </summary>
         public event EventHandler<ErrorEventArgs> Error;
-
-        /// <summary>
-        /// Raised when the JavaScript code makes a call to <c>console.timeStamp</c>. For the list of metrics see <see cref="MetricsAsync"/>.
-        /// </summary>
-        public event EventHandler<MetricEventArgs> Metrics;
-
-        /// <summary>
-        /// Raised when a JavaScript dialog appears, such as <c>alert</c>, <c>prompt</c>, <c>confirm</c> or <c>beforeunload</c>. Puppeteer can respond to the dialog via <see cref="Dialog"/>'s <see cref="Dialog.Accept(string)"/> or <see cref="Dialog.Dismiss"/> methods.
-        /// </summary>
-        public event EventHandler<DialogEventArgs> Dialog;
 
         /// <summary>
         /// Raised when the JavaScript <c>DOMContentLoaded</c> <see href="https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded"/> event is dispatched.
@@ -304,11 +286,6 @@ namespace PuppeteerSharp
         public Coverage Coverage { get; }
 
         /// <summary>
-        /// Gets this page's tracing
-        /// </summary>
-        public Tracing Tracing { get; }
-
-        /// <summary>
         /// Gets this page's mouse
         /// </summary>
         public Mouse Mouse { get; }
@@ -384,45 +361,6 @@ namespace PuppeteerSharp
         #endregion
 
         #region Public Methods
-
-        /// <summary>
-        /// Sets the page's geolocation.
-        /// </summary>
-        /// <returns>The task.</returns>
-        /// <param name="options">Geolocation options.</param>
-        /// <remarks>
-        /// Consider using <seealso cref="BrowserContext.OverridePermissionsAsync(string, IEnumerable{OverridePermission})"/> to grant permissions for the page to read its geolocation.
-        /// </remarks>
-        public Task SetGeolocationAsync(GeolocationOption options)
-        {
-            if (options.Longitude < -180 || options.Longitude > 180)
-            {
-                throw new ArgumentException($"Invalid longitude '{ options.Longitude }': precondition - 180 <= LONGITUDE <= 180 failed.");
-            }
-            if (options.Latitude < -90 || options.Latitude > 90)
-            {
-                throw new ArgumentException($"Invalid latitude '{ options.Latitude }': precondition - 90 <= LATITUDE <= 90 failed.");
-            }
-            if (options.Accuracy < 0)
-            {
-                throw new ArgumentException($"Invalid accuracy '{options.Accuracy}': precondition 0 <= ACCURACY failed.");
-            }
-
-            return Client.SendAsync("Emulation.setGeolocationOverride", options);
-        }
-
-        /// <summary>
-        /// Returns metrics
-        /// </summary>
-        /// <returns>Task which resolves into a list of metrics</returns>
-        /// <remarks>
-        /// All timestamps are in monotonic time: monotonically increasing time in seconds since an arbitrary point in the past.
-        /// </remarks>
-        public async Task<Dictionary<string, decimal>> MetricsAsync()
-        {
-            var response = await Client.SendAsync<PerformanceGetMetricsResponse>("Performance.getMetrics").ConfigureAwait(false);
-            return BuildMetricsObject(response.Metrics);
-        }
 
         /// <summary>
         /// A utility function to be used with <see cref="Extensions.EvaluateFunctionAsync{T}(Task{JSHandle}, string, object[])"/>
@@ -1211,41 +1149,9 @@ namespace PuppeteerSharp
         /// <returns>The burst mode off.</returns>
         public Task SetBurstModeOffAsync()
         {
-            _screenshotBurstModeOn = false;
-            if (_screenshotBurstModeOptions != null)
-            {
-                ResetBackgroundColorAndViewportAsync(_screenshotBurstModeOptions);
-            }
-
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Brings page to front (activates tab).
-        /// </summary>
-        /// <returns>A task that resolves when the message has been sent to Chromium.</returns>
-        public Task BringToFrontAsync() => Client.SendAsync("Page.bringToFront");
-
-        /// <summary>
-        /// Changes the timezone of the page.
-        /// </summary>
-        /// <param name="timezoneId">Timezone to set. See <seealso href="https://cs.chromium.org/chromium/src/third_party/icu/source/data/misc/metaZones.txt?rcl=faee8bc70570192d82d2978a71e2a615788597d1" >ICU’s `metaZones.txt`</seealso>
-        /// for a list of supported timezone IDs. Passing `null` disables timezone emulation.</param>
-        /// <returns>The viewport task.</returns>
-        public async Task EmulateTimezoneAsync(string timezoneId)
-        {
-            try
-            {
-                await Client.SendAsync("Emulation.setTimezoneOverride", new EmulateTimezoneRequest
-                {
-                    TimezoneId = timezoneId ?? string.Empty
-                }).ConfigureAwait(false);
-            }
-            catch (Exception ex) when (ex.Message.Contains("Invalid timezone"))
-            {
-                throw new PuppeteerException($"Invalid timezone ID: { timezoneId }");
-            }
-        }
 
         #endregion
 
@@ -1306,7 +1212,7 @@ namespace PuppeteerSharp
             }
             catch
             {
-                _fileChooserInterceptionIsDisabled = true;
+
             }
         }
 
@@ -1330,154 +1236,6 @@ namespace PuppeteerSharp
             ).ConfigureAwait(false);
 
             return waitTask.Result;
-        }
-
-        private Dictionary<string, decimal> BuildMetricsObject(List<Metric> metrics)
-        {
-            var result = new Dictionary<string, decimal>();
-
-            foreach (var item in metrics)
-            {
-                if (SupportedMetrics.Contains(item.Name))
-                {
-                    result.Add(item.Name, item.Value);
-                }
-            }
-
-            return result;
-        }
-
-        private async Task<string> PerformScreenshot(ScreenshotType type, ScreenshotOptions options)
-        {
-            if (!_screenshotBurstModeOn)
-            {
-                await Client.SendAsync("Target.activateTarget", new TargetActivateTargetRequest
-                {
-                    TargetId = Target.TargetId
-                }).ConfigureAwait(false);
-            }
-
-            var clip = options.Clip != null ? ProcessClip(options.Clip) : null;
-
-            if (!_screenshotBurstModeOn)
-            {
-                if (options != null && options.FullPage)
-                {
-                    var metrics = _screenshotBurstModeOn
-                        ? _burstModeMetrics :
-                        await Client.SendAsync<PageGetLayoutMetricsResponse>("Page.getLayoutMetrics").ConfigureAwait(false);
-
-                    if (options.BurstMode)
-                    {
-                        _burstModeMetrics = metrics;
-                    }
-
-                    var contentSize = metrics.ContentSize;
-
-                    var width = Convert.ToInt32(Math.Ceiling(contentSize.Width));
-                    var height = Convert.ToInt32(Math.Ceiling(contentSize.Height));
-
-                    // Overwrite clip for full page at all times.
-                    clip = new Clip
-                    {
-                        X = 0,
-                        Y = 0,
-                        Width = width,
-                        Height = height,
-                        Scale = 1
-                    };
-
-                    var isMobile = Viewport?.IsMobile ?? false;
-                    var deviceScaleFactor = Viewport?.DeviceScaleFactor ?? 1;
-                    var isLandscape = Viewport?.IsLandscape ?? false;
-                    var screenOrientation = isLandscape ?
-                        new ScreenOrientation
-                        {
-                            Angle = 90,
-                            Type = ScreenOrientationType.LandscapePrimary
-                        } :
-                        new ScreenOrientation
-                        {
-                            Angle = 0,
-                            Type = ScreenOrientationType.PortraitPrimary
-                        };
-
-                    await Client.SendAsync("Emulation.setDeviceMetricsOverride", new EmulationSetDeviceMetricsOverrideRequest
-                    {
-                        Mobile = isMobile,
-                        Width = width,
-                        Height = height,
-                        DeviceScaleFactor = deviceScaleFactor,
-                        ScreenOrientation = screenOrientation
-                    }).ConfigureAwait(false);
-                }
-
-                if (options?.OmitBackground == true && type == ScreenshotType.Png)
-                {
-                    await Client.SendAsync("Emulation.setDefaultBackgroundColorOverride", new EmulationSetDefaultBackgroundColorOverrideRequest
-                    {
-                        Color = new EmulationSetDefaultBackgroundColorOverrideColor
-                        {
-                            R = 0,
-                            G = 0,
-                            B = 0,
-                            A = 0
-                        }
-                    }).ConfigureAwait(false);
-                }
-            }
-
-            var screenMessage = new PageCaptureScreenshotRequest
-            {
-                Format = type.ToString().ToLower()
-            };
-
-            if (options.Quality.HasValue)
-            {
-                screenMessage.Quality = options.Quality.Value;
-            }
-
-            if (clip != null)
-            {
-                screenMessage.Clip = clip;
-            }
-
-            var result = await Client.SendAsync<PageCaptureScreenshotResponse>("Page.captureScreenshot", screenMessage).ConfigureAwait(false);
-
-            if (options.BurstMode)
-            {
-                _screenshotBurstModeOptions = options;
-                _screenshotBurstModeOn = true;
-            }
-            else
-            {
-                await ResetBackgroundColorAndViewportAsync(options).ConfigureAwait(false);
-            }
-            return result.Data;
-        }
-
-        private Clip ProcessClip(Clip clip)
-        {
-            var x = Math.Round(clip.X);
-            var y = Math.Round(clip.Y);
-
-            return new Clip
-            {
-                X = x,
-                Y = y,
-                Width = Math.Round(clip.Width + clip.X - x, MidpointRounding.AwayFromZero),
-                Height = Math.Round(clip.Height + clip.Y - y, MidpointRounding.AwayFromZero),
-                Scale = 1
-            };
-        }
-
-        private Task ResetBackgroundColorAndViewportAsync(ScreenshotOptions options)
-        {
-            var omitBackgroundTask = options?.OmitBackground == true && options.Type == ScreenshotType.Png ?
-                Client.SendAsync("Emulation.setDefaultBackgroundColorOverride") : Task.CompletedTask;
-            var setViewPortTask = (options?.FullPage == true && Viewport != null) ?
-                SetViewportAsync(Viewport) : Task.CompletedTask;
-            return Task.WhenAll(omitBackgroundTask, setViewPortTask);
         }
 
         private decimal ConvertPrintParameterToInches(object parameter)
@@ -1534,29 +1292,14 @@ namespace PuppeteerSharp
                     case "Page.loadEventFired":
                         Load?.Invoke(this, EventArgs.Empty);
                         break;
-                    //case "Runtime.consoleAPICalled":
-                    //    await OnConsoleAPIAsync(e.MessageData.ToObject<PageConsoleResponse>(true)).ConfigureAwait(false);
-                    //    break;
-                    case "Page.javascriptDialogOpening":
-                        OnDialog(e.MessageData.ToObject<PageJavascriptDialogOpeningResponse>(true));
-                        break;
                     case "Runtime.exceptionThrown":
                         HandleException(e.MessageData.ToObject<RuntimeExceptionThrownResponse>(true).ExceptionDetails);
                         break;
                     case "Inspector.targetCrashed":
                         OnTargetCrashed();
                         break;
-                    case "Performance.metrics":
-                        EmitMetrics(e.MessageData.ToObject<PerformanceMetricsResponse>(true));
-                        break;
                     case "Target.attachedToTarget":
                         await OnAttachedToTargetAsync(e.MessageData.ToObject<TargetAttachedToTargetResponse>(true)).ConfigureAwait(false);
-                        break;
-                    case "Target.detachedFromTarget":
-                        OnDetachedFromTarget(e.MessageData.ToObject<TargetDetachedFromTargetResponse>(true));
-                        break;
-                    case "Log.entryAdded":
-                        await OnLogEntryAddedAsync(e.MessageData.ToObject<LogEntryAddedResponse>(true)).ConfigureAwait(false);
                         break;
                     case "Runtime.bindingCalled":
                         await OnBindingCalled(e.MessageData.ToObject<BindingCalledResponse>(true)).ConfigureAwait(false);
@@ -1570,7 +1313,7 @@ namespace PuppeteerSharp
             }
         }
 
-            private async Task OnBindingCalled(BindingCalledResponse e)
+        private async Task OnBindingCalled(BindingCalledResponse e)
         {
             string expression;
             try
@@ -1637,16 +1380,6 @@ namespace PuppeteerSharp
             return result;
         }
 
-        private void OnDetachedFromTarget(TargetDetachedFromTargetResponse e)
-        {
-            var sessionId = e.SessionId;
-            //if (_workers.TryGetValue(sessionId, out var worker))
-            //{
-            //    WorkerDestroyed?.Invoke(this, new WorkerEventArgs(worker));
-            //    _workers.Remove(sessionId);
-            //}
-        }
-
         private async Task OnAttachedToTargetAsync(TargetAttachedToTargetResponse e)
         {
             var targetInfo = e.TargetInfo;
@@ -1663,34 +1396,6 @@ namespace PuppeteerSharp
                 catch { }
                 return;
             }
-
-            //var session = Connection.FromSession(Client).GetSession(sessionId);
-            //var worker = new Worker(session, targetInfo.Url, AddConsoleMessageAsync, HandleException);
-            //_workers[sessionId] = worker;
-            //WorkerCreated?.Invoke(this, new WorkerEventArgs(worker));
-        }
-
-        private async Task OnLogEntryAddedAsync(LogEntryAddedResponse e)
-        {
-            if (e.Entry.Args != null)
-            {
-                foreach (var arg in e.Entry?.Args)
-                {
-                    await RemoteObjectHelper.ReleaseObjectAsync(Client, arg).ConfigureAwait(false);
-                }
-            }
-            //if (e.Entry.Source != TargetType.Worker)
-            //{
-            //    Console?.Invoke(this, new ConsoleEventArgs(new ConsoleMessage(
-            //        e.Entry.Level,
-            //        e.Entry.Text,
-            //        null,
-            //        new ConsoleMessageLocation
-            //        {
-            //            URL = e.Entry.URL,
-            //            LineNumber = e.Entry.LineNumber
-            //        })));
-            //}
         }
 
         private void OnTargetCrashed()
@@ -1702,9 +1407,6 @@ namespace PuppeteerSharp
 
             Error.Invoke(this, new ErrorEventArgs("Page crashed!"));
         }
-
-        private void EmitMetrics(PerformanceMetricsResponse metrics)
-            => Metrics?.Invoke(this, new MetricEventArgs(metrics.Title, BuildMetricsObject(metrics.Metrics)));
 
         private void HandleException(EvaluateExceptionResponseDetails exceptionDetails)
             => PageError?.Invoke(this, new PageErrorEventArgs(GetExceptionMessage(exceptionDetails)));
@@ -1727,49 +1429,6 @@ namespace PuppeteerSharp
             }
             return message;
         }
-
-        private void OnDialog(PageJavascriptDialogOpeningResponse message)
-        {
-            var dialog = new Dialog(Client, message.Type, message.Message, message.DefaultPrompt);
-            Dialog?.Invoke(this, new DialogEventArgs(dialog));
-        }
-
-        //private Task OnConsoleAPIAsync(PageConsoleResponse message)
-        //{
-        //    if (message.ExecutionContextId == 0)
-        //    {
-        //        return Task.CompletedTask;
-        //    }
-        //    var ctx = FrameManager.ExecutionContextById(message.ExecutionContextId);
-        //    var values = message.Args.Select(ctx.CreateJSHandle).ToArray();
-
-        //    return AddConsoleMessageAsync(message.Type, values, message.StackTrace);
-        //}
-
-        //private async Task AddConsoleMessageAsync(ConsoleType type, JSHandle[] values, Messaging.StackTrace stackTrace)
-        //{
-        //    if (Console?.GetInvocationList().Length == 0)
-        //    {
-        //        await Task.WhenAll(values.Select(v => RemoteObjectHelper.ReleaseObjectAsync(Client, v.RemoteObject))).ConfigureAwait(false);
-        //        return;
-        //    }
-
-        //    var tokens = values.Select(i => i.RemoteObject.ObjectId != null
-        //        ? i.ToString()
-        //        : RemoteObjectHelper.ValueFromRemoteObject<string>(i.RemoteObject));
-
-        //    var location = new ConsoleMessageLocation();
-        //    if (stackTrace?.CallFrames?.Length > 0)
-        //    {
-        //        var callFrame = stackTrace.CallFrames[0];
-        //        location.URL = callFrame.URL;
-        //        location.LineNumber = callFrame.LineNumber;
-        //        location.ColumnNumber = callFrame.ColumnNumber;
-        //    }
-
-        //    var consoleMessage = new ConsoleMessage(type, string.Join(" ", tokens), values, location);
-        //    Console?.Invoke(this, new ConsoleEventArgs(consoleMessage));
-        //}
 
         private async Task ExposeFunctionAsync(string name, Delegate puppeteerFunction)
         {

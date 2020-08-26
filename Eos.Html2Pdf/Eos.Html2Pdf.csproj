@@ -69,9 +69,6 @@
     <Compile Include="ContextPayload.cs" />
     <Compile Include="ContextPayloadAuxData.cs" />
     <Compile Include="Credentials.cs" />
-    <Compile Include="Dialog.cs" />
-    <Compile Include="DialogEventArgs.cs" />
-    <Compile Include="DialogType.cs" />
     <Compile Include="DOMWorld.cs" />
     <Compile Include="DOMWorldType.cs" />
     <Compile Include="ElementHandle.cs" />
@@ -85,7 +82,6 @@
     <Compile Include="FrameManager.cs" />
     <Compile Include="FramePayload.cs" />
     <Compile Include="FrameTree.cs" />
-    <Compile Include="GeolocationOption.cs" />
     <Compile Include="Helpers\AsyncDictionaryHelper.cs" />
     <Compile Include="Helpers\AsyncFileHelper.cs" />
     <Compile Include="Helpers\DictionaryExtensions.cs" />
@@ -206,17 +202,14 @@
     <Compile Include="Messaging\NavigatedWithinDocumentResponse.cs" />
     <Compile Include="Messaging\NetworkEmulateNetworkConditionsRequest.cs" />
     <Compile Include="Messaging\NetworkGetCookiesRequest.cs" />
-    <Compile Include="Messaging\NetworkGetCookiesResponse.cs" />
     <Compile Include="Messaging\NetworkGetResponseBodyRequest.cs" />
     <Compile Include="Messaging\NetworkGetResponseBodyResponse.cs" />
     <Compile Include="Messaging\NetworkSetCacheDisabledRequest.cs" />
-    <Compile Include="Messaging\NetworkSetCookiesRequest.cs" />
     <Compile Include="Messaging\NetworkSetExtraHTTPHeadersRequest.cs" />
     <Compile Include="Messaging\NetworkSetUserAgentOverrideRequest.cs" />
     <Compile Include="Messaging\PageAddScriptToEvaluateOnNewDocumentRequest.cs" />
     <Compile Include="Messaging\PageCaptureScreenshotRequest.cs" />
     <Compile Include="Messaging\PageCaptureScreenshotResponse.cs" />
-    <Compile Include="Messaging\PageConsoleResponse.cs" />
     <Compile Include="Messaging\PageCreateIsolatedWorldRequest.cs" />
     <Compile Include="Messaging\PageFileChooserOpenedResponse.cs" />
     <Compile Include="Messaging\PageFrameAttachedResponse.cs" />
@@ -228,7 +221,6 @@
     <Compile Include="Messaging\PageGetNavigationHistoryResponse.cs" />
     <Compile Include="Messaging\PageHandleFileChooserRequest.cs" />
     <Compile Include="Messaging\PageHandleJavaScriptDialogRequest.cs" />
-    <Compile Include="Messaging\PageJavascriptDialogOpeningResponse.cs" />
     <Compile Include="Messaging\PageNavigateRequest.cs" />
     <Compile Include="Messaging\PageNavigateResponse.cs" />
     <Compile Include="Messaging\PageNavigateToHistoryEntryRequest.cs" />
@@ -237,8 +229,6 @@
     <Compile Include="Messaging\PageSetBypassCSPRequest.cs" />
     <Compile Include="Messaging\PageSetInterceptFileChooserDialog.cs" />
     <Compile Include="Messaging\PageSetLifecycleEventsEnabledRequest.cs" />
-    <Compile Include="Messaging\PerformanceGetMetricsResponse.cs" />
-    <Compile Include="Messaging\PerformanceMetricsResponse.cs" />
     <Compile Include="Messaging\ProfilerStartPreciseCoverageRequest.cs" />
     <Compile Include="Messaging\ProfilerTakePreciseCoverageResponse.cs" />
     <Compile Include="Messaging\RemoteObject.cs" />
@@ -264,7 +254,6 @@
     <Compile Include="Messaging\SecurityHandleCertificateErrorResponse.cs" />
     <Compile Include="Messaging\SecuritySetIgnoreCertificateErrorsRequest.cs" />
     <Compile Include="Messaging\SecuritySetOverrideCertificateErrorsRequest.cs" />
-    <Compile Include="Messaging\StackTrace.cs" />
     <Compile Include="Messaging\TargetActivateTargetRequest.cs" />
     <Compile Include="Messaging\TargetAttachedToTargetResponse.cs" />
     <Compile Include="Messaging\TargetAttachToTargetRequest.cs" />
@@ -283,8 +272,6 @@
     <Compile Include="Messaging\TracingCompleteResponse.cs" />
     <Compile Include="Messaging\TracingStartRequest.cs" />
     <Compile Include="Messaging\WSEndpointResponse.cs" />
-    <Compile Include="Metric.cs" />
-    <Compile Include="MetricEventArgs.cs" />
     <Compile Include="NavigationException.cs" />
     <Compile Include="NavigationOptions.cs" />
     <Compile Include="NetworkManager.cs" />
@@ -309,7 +296,6 @@
     <Compile Include="Platform.cs" />
     <Compile Include="PopupEventArgs.cs" />
     <Compile Include="ProcessException.cs" />
-    <Compile Include="Product.cs" />
     <Compile Include="Puppeteer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PuppeteerException.cs" />
@@ -334,8 +320,6 @@
     <Compile Include="TargetInfo.cs" />
     <Compile Include="TargetType.cs" />
     <Compile Include="TimeoutSettings.cs" />
-    <Compile Include="Tracing.cs" />
-    <Compile Include="TracingOptions.cs" />
     <Compile Include="Transport\IConnectionTransport.cs" />
     <Compile Include="Transport\MessageReceivedEventArgs.cs" />
     <Compile Include="Transport\TransportClosedEventArgs.cs" />

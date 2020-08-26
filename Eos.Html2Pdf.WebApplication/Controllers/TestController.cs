@@ -10,14 +10,15 @@ namespace Eos.Html2Pdf.WebApplication.Controllers
 {
     public class TestController : ApiController
     {
+        //http://localhost/Html2Pdf/api/test/get_pdf/
         [HttpGet]
         [Route("api/test/get_pdf/")]
         public IHttpActionResult GetPdf()
         {
-            var sourceFile = new FileInfo(HttpContext.Current.Server.MapPath("~/sources/ответ_0.html"));
-            var sourceBytes = File.ReadAllBytes(sourceFile.FullName);
-            var fileName = $"{Path.GetFileNameWithoutExtension(sourceFile.Name)}.pdf";
-            var dataBytes = Html2PdfHelper.Convert(sourceBytes);
+            var sourceFile = new FileInfo(HttpContext.Current.Server.MapPath("~/sources/ответ_43.html"));
+            var fileName = $"{Path.GetFileNameWithoutExtension(sourceFile.Name)}.pdf";           
+            var htmlContent = File.ReadAllText(sourceFile.FullName);
+            var dataBytes = Html2PdfHelper.ConvertFromContent(htmlContent);
             return new PdfResult(new MemoryStream(dataBytes), Request, fileName);
         }
 

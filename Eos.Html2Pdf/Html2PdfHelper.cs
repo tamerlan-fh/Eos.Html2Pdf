@@ -1,7 +1,7 @@
 ﻿using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using System;
-using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Eos.Html2Pdf
@@ -10,38 +10,35 @@ namespace Eos.Html2Pdf
     {
         private const string default_chrome_path = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
 
-        public static byte[] Convert(byte[] httpSource, string executablePath = default_chrome_path)
+        /// <summary>
+        /// Конвертирование на основе содержимого файла html
+        /// </summary>
+        /// <param name="htmlContent">содержимое файла html</param>
+        /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
+        /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
+        public static byte[] ConvertFromContent(string htmlContent, string executablePath = default_chrome_path)
         {
-            return Convert(ConvertAsync(httpSource, executablePath));
+            return GetAsyncResult(ConvertFromContentAsync(htmlContent, executablePath));
         }
 
-        public static byte[] Convert(string httpPath, string executablePath = default_chrome_path)
+        /// <summary>
+        /// Конвертирование на основе содержимого файла html
+        /// </summary>
+        /// <param name="htmlContent">содержимое файла html</param>
+        /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
+        /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
+        public static byte[] ConvertFromContent(byte[] htmlContent, string executablePath = default_chrome_path)
         {
-            return Convert(ConvertAsync(httpPath, executablePath));
+            return ConvertFromContent(Encoding.UTF8.GetString(htmlContent), executablePath);
         }
 
-        private static byte[] Convert(Task<byte[]> task)
-        {
-            if (!task.Wait(TimeSpan.FromSeconds(60)) || task.Exception != null)
-                throw new Exception($"В процессе конвертирования документа http в pdf произошла ошибка. {task.Exception?.Message}", task.Exception);
-            return task.Result;
-        }
-
-        public static async Task<byte[]> ConvertAsync(byte[] httpSource, string executablePath = default_chrome_path)
-        {
-            var htmlPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.html");
-            try
-            {
-                File.WriteAllBytes(htmlPath, httpSource);
-                return await ConvertAsync(htmlPath, executablePath).ConfigureAwait(false);
-            }
-            finally
-            {
-                DeleteFile(htmlPath);
-            }
-        }
-
-        public static async Task<byte[]> ConvertAsync(string httpPath, string executablePath = default_chrome_path)
+        /// <summary>
+        /// Конвертирование на основе содержимого файла html
+        /// </summary>
+        /// <param name="htmlContent">содержимое файла html</param>
+        /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
+        /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
+        public static async Task<byte[]> ConvertFromContentAsync(string htmlContent, string executablePath = default_chrome_path)
         {
             using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
@@ -49,31 +46,26 @@ namespace Eos.Html2Pdf
                 Headless = true
             }).ConfigureAwait(false))
             {
-                var page = await browser.NewPageAsync();
-
-                await page.GoToAsync(httpPath).ConfigureAwait(false);
-
-                var pdfOptions = new PdfOptions
+                using (var page = await browser.NewPageAsync())
                 {
-                    Format = PaperFormat.A4,
-                    DisplayHeaderFooter = false
-                };
+                    await page.SetContentAsync(htmlContent).ConfigureAwait(false);
 
-                return await page.PdfDataAsync(pdfOptions).ConfigureAwait(false);
+                    var pdfOptions = new PdfOptions
+                    {
+                        Format = PaperFormat.A4,
+                        DisplayHeaderFooter = false
+                    };
+
+                    return await page.PdfDataAsync(pdfOptions).ConfigureAwait(false);
+                }
             }
         }
 
-        private static void DeleteFile(string fileName)
+        private static byte[] GetAsyncResult(Task<byte[]> task)
         {
-            var fileInfo = new FileInfo(fileName);
-            if (!fileInfo.Exists)
-                return;
-            try
-            {
-                fileInfo.Attributes = FileAttributes.Normal;
-                fileInfo.Delete();
-            }
-            catch { }
+            if (!task.Wait(TimeSpan.FromSeconds(60)) || task.Exception != null)
+                throw new Exception($"В процессе конвертирования документа http в pdf произошла ошибка. {task.Exception?.Message}", task.Exception);
+            return task.Result;
         }
     }
 }

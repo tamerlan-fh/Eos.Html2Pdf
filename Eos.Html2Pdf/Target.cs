@@ -1,9 +1,7 @@
-﻿using System;
+﻿using PuppeteerSharp.Helpers;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using PuppeteerSharp.Helpers;
-using PuppeteerSharp.Helpers.Json;
-using PuppeteerSharp.Messaging;
 
 namespace PuppeteerSharp
 {
@@ -16,7 +14,6 @@ namespace PuppeteerSharp
         #region Private members
         private readonly Func<Task<CDPSession>> _sessionFactory;
         private readonly TaskCompletionSource<bool> _initializedTaskWrapper = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        private Task<Worker> _workerTask;
         #endregion
 
         internal bool IsInitialized { get; set; }
@@ -64,11 +61,7 @@ namespace PuppeteerSharp
         }
 
         #region Properties
-        /// <summary>
-        /// Gets the URL.
-        /// </summary>
-        /// <value>The URL.</value>
-        public string Url => TargetInfo.Url;
+
         /// <summary>
         /// Gets the type. It will be <see cref="TargetInfo.Type"/>.
         /// Can be `"page"`, `"background_page"`, `"service_worker"`, `"shared_worker"`, `"browser"` or `"other"`.
@@ -121,34 +114,6 @@ namespace PuppeteerSharp
             return PageTask ?? Task.FromResult<Page>(null);
         }
 
-        /// <summary>
-        /// If the target is not of type `"service_worker"` or `"shared_worker"`, returns `null`.
-        /// </summary>
-        /// <returns>A task that returns a <see cref="Worker"/></returns>
-        public Task<Worker> WorkerAsync()
-        {
-            if (TargetInfo.Type != TargetType.ServiceWorker && TargetInfo.Type != TargetType.SharedWorker)
-            {
-                return null;
-            }
-            if (_workerTask == null)
-            {
-                _workerTask = WorkerInternalAsync();
-            }
-
-            return _workerTask;
-        }
-
-        private async Task<Worker> WorkerInternalAsync()
-        {
-            var client = await _sessionFactory().ConfigureAwait(false);
-            return new Worker(
-                client,
-                TargetInfo.Url,
-                (consoleType, handles) => Task.CompletedTask,
-                (e) => { });
-        }
-
         private async Task<Page> CreatePageAsync()
         {
             var session = await _sessionFactory().ConfigureAwait(false);
@@ -172,11 +137,5 @@ namespace PuppeteerSharp
                 Browser.ChangeTarget(this);
             }
         }
-
-        ///// <summary>
-        ///// Creates a Chrome Devtools Protocol session attached to the target.
-        ///// </summary>
-        ///// <returns>A task that returns a <see cref="CDPSession"/></returns>
-        //public Task<CDPSession> CreateCDPSessionAsync() => Browser.Connection.CreateSessionAsync(TargetInfo);
     }
 }

@@ -26,8 +26,8 @@ namespace Eos.Html2Pdf.ConsoleApp
                         Console.WriteLine($"File {file.FullName} not exist");
                         continue;
                     }
-                    var bytes = File.ReadAllBytes(file.FullName);
-                    File.WriteAllBytes(Path.Combine(targetDir.FullName, $"{file.Name}_{Guid.NewGuid()}.pdf"), Eos.Html2Pdf.Html2PdfHelper.Convert(bytes));
+                    var htmlContent = File.ReadAllText(file.FullName);
+                    File.WriteAllBytes(Path.Combine(targetDir.FullName, $"{file.Name}_{Guid.NewGuid()}.pdf"), Eos.Html2Pdf.Html2PdfHelper.ConvertFromContent(htmlContent));
                 }
 
                 Console.WriteLine("done!");

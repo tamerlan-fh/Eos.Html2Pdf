@@ -27,7 +27,9 @@ namespace Eos.Html2Pdf.ConsoleApp
                         continue;
                     }
                     var htmlContent = File.ReadAllText(file.FullName);
-                    File.WriteAllBytes(Path.Combine(targetDir.FullName, $"{file.Name}_{Guid.NewGuid()}.pdf"), Eos.Html2Pdf.Html2PdfHelper.ConvertFromContent(htmlContent));
+                    var filename = $"{file.Name}_{Guid.NewGuid()}.pdf";
+                    File.WriteAllBytes(Path.Combine(targetDir.FullName, filename), Eos.Html2Pdf.Html2PdfHelper.ConvertFromContent(htmlContent));
+                    Console.WriteLine($"{filename} created!");
                 }
 
                 Console.WriteLine("done!");
@@ -36,6 +38,8 @@ namespace Eos.Html2Pdf.ConsoleApp
             {
                 Console.WriteLine();
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException?.Message);
+                Console.WriteLine(ex.InnerException?.InnerException?.Message);
             }
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();

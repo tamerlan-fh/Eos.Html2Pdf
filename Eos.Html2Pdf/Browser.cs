@@ -111,18 +111,6 @@ namespace PuppeteerSharp
         public event EventHandler<TargetChangedArgs> TargetDestroyed;
 
         /// <summary>
-        /// Gets the Browser websocket url
-        /// </summary>
-        /// <remarks>
-        /// Browser websocket endpoint which can be used as an argument to <see cref="Puppeteer.ConnectAsync(ConnectOptions, ILoggerFactory)"/>.
-        /// The format is <c>ws://${host}:${port}/devtools/browser/[id]</c>
-        /// You can find the <c>webSocketDebuggerUrl</c> from <c>http://${host}:${port}/json/version</c>.
-        /// Learn more about the devtools protocol <see href="https://chromedevtools.github.io/devtools-protocol"/>
-        /// and the browser endpoint <see href="https://chromedevtools.github.io/devtools-protocol/#how-do-i-access-the-browser-target"/>
-        /// </remarks>
-        public string WebSocketEndpoint => Connection.Url;
-
-        /// <summary>
         /// Gets the spawned browser process. Returns <c>null</c> if the browser instance was created with <see cref="Puppeteer.ConnectAsync(ConnectOptions, ILoggerFactory)"/> method.
         /// </summary>
         public Process Process => Launcher?.Process;

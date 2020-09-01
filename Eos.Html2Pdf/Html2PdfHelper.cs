@@ -1,6 +1,7 @@
 ﻿using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using System;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Eos.Html2Pdf
 {
     public static class Html2PdfHelper
     {
-        private const string default_chrome_path = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
+        public const string DEFAULT_CHROME_PATH = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
 
         /// <summary>
         /// Конвертирование на основе содержимого файла html
@@ -16,7 +17,7 @@ namespace Eos.Html2Pdf
         /// <param name="htmlContent">содержимое файла html</param>
         /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
         /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
-        public static byte[] ConvertFromContent(string htmlContent, string executablePath = default_chrome_path)
+        public static byte[] ConvertFromContent(string htmlContent, string executablePath = DEFAULT_CHROME_PATH)
         {
             return GetAsyncResult(ConvertFromContentAsync(htmlContent, executablePath));
         }
@@ -27,7 +28,7 @@ namespace Eos.Html2Pdf
         /// <param name="htmlContent">содержимое файла html</param>
         /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
         /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
-        public static byte[] ConvertFromContent(byte[] htmlContent, string executablePath = default_chrome_path)
+        public static byte[] ConvertFromContent(byte[] htmlContent, string executablePath = DEFAULT_CHROME_PATH)
         {
             return ConvertFromContent(Encoding.UTF8.GetString(htmlContent), executablePath);
         }
@@ -38,12 +39,29 @@ namespace Eos.Html2Pdf
         /// <param name="htmlContent">содержимое файла html</param>
         /// <param name="executablePath">абсолютный путь к исполняемому файлу chrome.exe</param>
         /// <returns>содержимое результата в формате pdf в байтовом представлении</returns>
-        public static async Task<byte[]> ConvertFromContentAsync(string htmlContent, string executablePath = default_chrome_path)
+        public static async Task<byte[]> ConvertFromContentAsync(string htmlContent, string executablePath = DEFAULT_CHROME_PATH)
         {
             using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 ExecutablePath = executablePath,
-                Headless = true
+                Headless = true,
+                WebSocketFactory = async (uri, socketOptions, cancellationToken) =>
+                {
+                    var client = SystemClientWebSocket.CreateClientWebSocket();
+                    if (client is System.Net.WebSockets.Managed.ClientWebSocket managed)
+                    {
+                        managed.Options.KeepAliveInterval = TimeSpan.FromSeconds(0);
+                        await managed.ConnectAsync(uri, cancellationToken);
+                    }
+                    else
+                    {
+                        var coreSocket = client as ClientWebSocket;
+                        coreSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(0);
+                        await coreSocket.ConnectAsync(uri, cancellationToken);
+                    }
+
+                    return client;
+                },
             }).ConfigureAwait(false))
             {
                 using (var page = await browser.NewPageAsync())

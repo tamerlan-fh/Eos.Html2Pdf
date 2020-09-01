@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
 using PuppeteerSharp.Transport;
 
 namespace PuppeteerSharp
@@ -73,12 +72,6 @@ namespace PuppeteerSharp
                 }
             }
         }
-
-        /// <summary>
-        /// Keep alive value.
-        /// </summary>
-        [Obsolete("Chromium doesn't support pings yet (see: https://bugs.chromium.org/p/chromium/issues/detail?id=865002)")]
-        public int KeepAliveInterval { get; set; } = 0;
 
         /// <summary>
         /// Logs process counts after launching chrome and after exiting.
